@@ -31,18 +31,18 @@ function EventsThumb({ event, isOnHomePage = false, thinVariant = false, variant
     return (
         <div
             onClick={handleEventClick}
-            className={`relative overflow-hidden rounded-[12px]
-                transition-all duration-100
-                hover:cursor-pointer hover:shadow-[3px_3px_8px_1px_rgba(0,_0,_0,_0.3)] 
-                hover:rotate-[0.3deg] hover:scale-[0.985]
-                hover:border-[complementSecondary] hover:border-[3px]
+            className={`group relative overflow-hidden rounded-[12px]
+                bg-black/10 border border-transparent shadow-sm
+                transition-all duration-300 ease-out
+                hover:cursor-pointer hover:bg-black/20 hover:border-white/20 hover:shadow-[0_20px_45px_rgba(0,_0,_0,_0.22)]
+                hover:-translate-y-1 hover:scale-[1.003]
                 ${variant === "scroll"
                     ? "min-w-[250px] md:min-w-[460px] lg:min-w-[490px] lg:max-w-[80%]"
                     : "w-full"
                 }
                 ${thinVariant
                     ? 'h-[240px] md:h-[260px]' /* Reduced height */
-                    : 'h-[280px] md:h-[260px]' /* Reduced height */
+                    : 'h-[280px] md:h-[260px]' /* Increased height */
                 }`}
         >
             {/* Background color and noise overlay container */}
@@ -62,20 +62,20 @@ function EventsThumb({ event, isOnHomePage = false, thinVariant = false, variant
                 <div className="absolute inset-0 p-3 flex flex-col justify-between h-full z-10 md:relative">
                     {/* Title at the top */}
                     <div>
-                        <p className="font-playfair text-[24px] md:text-[32px] font-medium leading-[1]">
+                        <p className="font-playfair text-[24px] md:text-[32px] font-medium leading-[1] text-white">
                             {event.title}
                         </p>
                     </div>
 
                     {/* Description truncates if more than available space */}
                     <div className="flex-1 my-1 overflow-hidden">
-                        <p className="line-clamp-3"> {/* Reduced to 3 lines */}
+                        <p className="line-clamp-3 text-white/90"> {/* Reduced to 3 lines */}
                             {event.description}
                         </p>
                     </div>
 
                     {/* Event details at the bottom */}
-                    <div className="flex flex-col md:flex-row md:gap-2 gap-2 mt-1 text-[13px] font-light">
+                    <div className="flex flex-col md:flex-row md:gap-2 gap-2 mt-1 text-[13px] font-light text-white/80">
                         <p className="flex flex-row items-center gap-2">
                             <GrLocation className="text-[18px]" /> {/* Slightly smaller icon */}
                             {event.location}

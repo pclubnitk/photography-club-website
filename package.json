@@ -26,6 +26,7 @@
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.1",
+    "prop-types": "^15.8.1",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {

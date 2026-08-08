@@ -175,6 +175,15 @@ const events = [
         thumbnailColor: "#E195AB"
     },
     {
+        id: "incident-26",
+        title: "Incident '26",
+        description: "A fresh festival highlight reel from the latest Incident coverage.",
+        location: "Central Lawn, NITK",
+        dateTime: "2026-03-08 10:00 AM",
+        image: "https://img.freepik.com/free-photo/bright-stage-lights_1048-12345.jpg",
+        thumbnailColor: "#2D72D9"
+    },
+    {
         id: "engineer-24",
         title: "Engineer '24",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
