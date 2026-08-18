@@ -3,22 +3,24 @@ import { CalendarDays, Clock, MapPin, UserRound } from "lucide-react";
 import noiseImage from "../../../assets/images/noise.png";
 
 function EventHero({ event }) {
+  const isIncidentEvent = event.id?.startsWith('incident');
+
   return (
-    <section className="overflow-hidden rounded-[12px] border border-secondary bg-complementSecondary">
+    <section className="overflow-hidden rounded-[12px] bg-complementSecondary">
       <div className="relative min-h-[300px] sm:min-h-[340px] md:min-h-[420px]">
         <div style={{ backgroundColor: event.thumbnailColor }} className="absolute inset-0">
           <img
             src={noiseImage}
             alt=""
-            className="absolute inset-0 h-full w-full contrast-200 opacity-50 md:opacity-70 mix-blend-overlay pointer-events-none"
+            className="absolute inset-0 h-full w-full contrast-200 opacity-30 md:opacity-40 mix-blend-overlay pointer-events-none"
           />
         </div>
         <img
           src={event.bannerImage}
           alt={`${event.title} event banner`}
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
+          className={`absolute inset-0 h-full w-full object-cover ${isIncidentEvent ? 'opacity-100' : 'opacity-35'}`}
         />
-        <div className="absolute inset-0 bg-black/35" />
+        <div className={`absolute inset-0 ${isIncidentEvent ? 'bg-black/10' : 'bg-black/35'}`} />
         <div className="relative z-[1] flex min-h-[300px] sm:min-h-[340px] md:min-h-[420px] flex-col justify-end gap-5 p-5 sm:p-6 md:p-8">
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-medium backdrop-blur-sm">

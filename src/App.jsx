@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router";
+import { Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/home";
 
 import Events from "./pages/events";
@@ -48,9 +48,8 @@ export default function App() {
                 <Route path=":id" element={<BlogPage />} />
               </Route>
               <Route path="/login" element={<Login />} />
-            </Routes>
-            <Routes>
               <Route path="/register" element={<Register />} />
+              <Route path="*" element={<HomePage />} />
             </Routes>
           </div>
 

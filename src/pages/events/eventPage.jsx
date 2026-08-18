@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { navigateSmooth } from "../../utils/helperFunctions";
 import {
   getCategories,
-  getComments,
   getEventById,
   getGallery,
   getRelatedEvents,
@@ -20,7 +19,7 @@ import UploadSection from "./components/UploadSection";
 
 function EventPage() {
   const { id } = useParams();
-  const eventId = id || "incident-24";
+  const eventId = id;
   const navigate = useNavigate();
   const location = useLocation();
   const uploadRef = useRef(null);
@@ -30,7 +29,6 @@ function EventPage() {
     gallery: [],
     categories: [],
     relatedEvents: [],
-    comments: [],
   });
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
@@ -47,18 +45,16 @@ function EventPage() {
       // TODO: GET Event Gallery API
       // TODO: GET Related Events API
       // TODO: GET Categories API
-      // TODO: GET Comments API
       // TODO: GET Statistics API
-      const [event, gallery, categories, relatedEvents, comments] = await Promise.all([
+      const [event, gallery, categories, relatedEvents] = await Promise.all([
         getEventById(eventId),
         getGallery(eventId),
         getCategories(),
         getRelatedEvents(eventId),
-        getComments(eventId),
       ]);
 
       if (isMounted) {
-        setPageData({ event, gallery, categories, relatedEvents, comments });
+        setPageData({ event, gallery, categories, relatedEvents });
         setLoading(false);
       }
     }
@@ -101,13 +97,13 @@ function EventPage() {
     return <LoadingSkeleton />;
   }
 
-  const { event, gallery, categories, relatedEvents, comments } = pageData;
+  const { event, gallery, categories, relatedEvents } = pageData;
 
   return (
     <div className="mx-auto w-full max-w-[1240px] px-6 py-8 sm:px-8 lg:px-12">
       <button
         onClick={backToPrevious}
-        className="mb-8 inline-flex items-center text-quaternary hover:text-primary group focus:outline-none focus:ring-2 focus:ring-primary rounded-full"
+        className="mb-8 inline-flex items-center rounded-full border-0 bg-transparent px-0 py-1 text-quaternary hover:text-primary group focus:outline-none focus:ring-0"
       >
         <ArrowLeft className="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
         {isFromHome ? "Go Back" : "All Events"}
@@ -172,10 +168,6 @@ function EventPage() {
           </div>
         </section>
 
-        <main className="flex flex-col gap-8 lg:col-span-2">
-          <RelatedEvents events={relatedEvents} />
-        </main>
-
         <section className="lg:col-span-2 w-full rounded-[24px] border border-secondary bg-complementPrimary/70 p-4 shadow-sm sm:p-6 lg:p-7">
           <EventGallery photos={gallery} onUploadFirst={scrollToUpload} />
           <div ref={uploadRef} className="mt-8 border-t border-secondary/80 pt-8">
@@ -183,7 +175,9 @@ function EventPage() {
           </div>
         </section>
 
-        
+        <main className="flex flex-col gap-8 lg:col-span-2">
+          <RelatedEvents events={relatedEvents} />
+        </main>
       </div>
 
       {toast && (

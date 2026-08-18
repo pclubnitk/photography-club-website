@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/images/temp-logo.png"
 import { FiCamera } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";

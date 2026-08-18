@@ -1,3 +1,16 @@
+import incident26Image from '../pages/events/components/698a1ef3f2512_untitled_design_9_.webp';
+import afImage from '../pages/events/components/af.webp';
+import clscImage from '../pages/events/components/clsc.webp';
+import decImage from '../pages/events/components/dec.webp';
+import firImage from '../pages/events/components/fir.webp';
+import genImage from '../pages/events/components/gen.webp';
+import mscImage from '../pages/events/components/msc.webp';
+import engi2Image from '../pages/events/components/engi2.jpg';
+import engi1Image from '../pages/events/components/engi1.jpg';
+import engi3Image from '../pages/events/components/engi3.jpg';
+import engi4Image from '../pages/events/components/engi4.jpg';
+import engi24Image from '../pages/events/components/engi24.jpg';
+
 const mockEvents = [
   {
     id: "incident-24",
@@ -34,15 +47,15 @@ const mockEvents = [
     id: "incident-26",
     title: "Incident '26",
     category: "Campus",
-    date: "8th Mar 2026",
-    dateTime: "2026-03-08T10:00:00/2026-03-12T11:00:00",
+    date: "8th Dec 2026",
+    dateTime: "2026-12-08T10:00:00/2026-12-12T11:00:00",
     time: "10:00 AM - 11:00 AM",
     venue: "Central Lawn, NITK",
     organizer: "Photography Club NITK",
     eventType: "PClub",
     registrationStatus: "Open",
     contactPerson: "Event Coordinator (TBD)",
-    bannerImage: "/photo-2.jpg",
+    bannerImage: incident26Image,
     thumbnailColor: "#2D72D9",
     shortDescription: "The next chapter of incident coverage, featuring student stories and festival photography.",
     fullDescription:
@@ -59,7 +72,7 @@ const mockEvents = [
       "Visual storytelling",
     ],
     participants: "150+",
-    photosUploaded: 48,
+    photosUploaded: 54,
   },
   {
     id: "engineer-24",
@@ -73,7 +86,7 @@ const mockEvents = [
     eventType: "External",
     registrationStatus: "Coming Soon",
     contactPerson: "TODO: Contact coordinator",
-    bannerImage: "/photo-2.jpg",
+    bannerImage: engi2Image,
     thumbnailColor: "#DE3163",
     shortDescription: "Technical fest coverage with documentary and editorial photography assignments.",
     fullDescription:
@@ -110,6 +123,7 @@ const mockEvents = [
 const mockGallery = [
   {
     id: "g-1",
+    eventId: "incident-24",
     src: "/photo-1.jpg",
     caption: "Main stage lights cutting through the festival crowd",
     photographer: "Aarav Menon",
@@ -120,6 +134,7 @@ const mockGallery = [
   },
   {
     id: "g-2",
+    eventId: "incident-24",
     src: "/photo-2.jpg",
     caption: "Quiet portrait near the old lecture hall",
     photographer: "Nisha Rao",
@@ -130,6 +145,7 @@ const mockGallery = [
   },
   {
     id: "g-3",
+    eventId: "incident-24",
     src: "/photo-3.jpg",
     caption: "Campus walkway after the evening rain",
     photographer: "Dev Shah",
@@ -140,6 +156,7 @@ const mockGallery = [
   },
   {
     id: "g-4",
+    eventId: "incident-26",
     src: "/photo-1.jpg",
     caption: "Workshop hands-on session with vintage lenses",
     photographer: "Mira Iyer",
@@ -150,6 +167,7 @@ const mockGallery = [
   },
   {
     id: "g-5",
+    eventId: "incident-26",
     src: "/photo-2.jpg",
     caption: "Street-style frame outside the food court",
     photographer: "Kabir Joseph",
@@ -159,17 +177,118 @@ const mockGallery = [
     heightClass: "h-72",
   },
   {
-    id: "g-6",
-    src: "/photo-3.jpg",
-    caption: "Nature trail behind the guest house",
+    id: "g-8",
+    eventId: "incident-26",
+    src: afImage,
+    caption: "Afternoon capture from the main plaza",
+    photographer: "Simran Patel",
+    uploadDate: "8 Mar 2026",
+    category: "Campus",
+    likes: 54,
+    heightClass: "h-72",
+  },
+  {
+    id: "g-9",
+    eventId: "incident-26",
+    src: clscImage,
+    caption: "Close-up of a candid portrait in warm light",
+    photographer: "Rohit Menon",
+    uploadDate: "8 Mar 2026",
+    category: "Portrait",
+    likes: 61,
+    heightClass: "h-60",
+  },
+  {
+    id: "g-10",
+    eventId: "incident-26",
+    src: decImage,
+    caption: "Decor and stage setup with festival energy",
     photographer: "Ananya Prabhu",
-    uploadDate: "7 Mar 2025",
-    category: "Nature",
-    likes: 39,
+    uploadDate: "9 Mar 2026",
+    category: "Event",
+    likes: 47,
+    heightClass: "h-72",
+  },
+  {
+    id: "g-11",
+    eventId: "incident-26",
+    src: firImage,
+    caption: "First light portrait of club members prepping for the shoot",
+    photographer: "Kabir Joseph",
+    uploadDate: "9 Mar 2026",
+    category: "Portrait",
+    likes: 52,
     heightClass: "h-64",
   },
   {
+    id: "g-12",
+    eventId: "incident-26",
+    src: genImage,
+    caption: "General festival crowd captured in a wide frame",
+    photographer: "Mira Iyer",
+    uploadDate: "10 Mar 2026",
+    category: "Crowd",
+    likes: 58,
+    heightClass: "h-80",
+  },
+  {
+    id: "g-13",
+    eventId: "incident-26",
+    src: mscImage,
+    caption: "Music stage moment with lighting and motion",
+    photographer: "Aarav Menon",
+    uploadDate: "10 Mar 2026",
+    category: "Music",
+    likes: 64,
+    heightClass: "h-72",
+  },
+  {
+    id: "g-14",
+    eventId: "engineer-24",
+    src: engi3Image,
+    caption: "Technical innovations and exhibition highlights",
+    photographer: "Simran Patel",
+    uploadDate: "15 Jan 2027",
+    category: "Workshop",
+    likes: 44,
+    heightClass: "h-72",
+  },
+  {
+    id: "g-15",
+    eventId: "engineer-24",
+    src: engi1Image,
+    caption: "Engineering expo highlights and technical showcases",
+    photographer: "Dev Shah",
+    uploadDate: "15 Jan 2027",
+    category: "Workshop",
+    likes: 45,
+    heightClass: "h-72",
+  },
+  {
+    id: "g-16",
+    eventId: "engineer-24",
+    src: engi4Image,
+    caption: "Student team presentations and innovation displays",
+    photographer: "Mira Iyer",
+    uploadDate: "16 Jan 2027",
+    category: "Event",
+    likes: 52,
+    heightClass: "h-64",
+  },
+  {
+    id: "g-17",
+    eventId: "engineer-24",
+    src: engi24Image,
+    caption: "Technical fest crowd and participant engagement",
+    photographer: "Kabir Joseph",
+    uploadDate: "17 Jan 2027",
+    category: "Campus",
+    likes: 48,
+    heightClass: "h-80",
+  },
+  {
     id: "g-7",
+    eventId: "photography-24",
     src: "/photo-1.jpg",
     caption: "Competition finalist frame from the night showcase",
     photographer: "Rohan Pai",
@@ -207,13 +326,12 @@ export async function getEventById(eventId) {
 }
 
 export async function getGallery(eventId) {
-  void eventId;
   // TODO: GET Event Gallery API
   // TODO: Fetch gallery images from backend
   // TODO: Fetch photographer details
   // TODO: Privacy settings API
   // TODO: Replace with Strapi REST endpoint: GET /api/event-photos?filters[event][id][$eq]=${eventId}&populate=*
-  return mockGallery;
+  return mockGallery.filter((photo) => photo.eventId === eventId);
 }
 
 export async function uploadPhoto() {

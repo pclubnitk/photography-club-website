@@ -72,7 +72,9 @@ function EventGallery({ photos, onUploadFirst }) {
       {filteredPhotos.length > 0 ? (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 items-stretch">
           {filteredPhotos.map((photo, index) => (
-            <GalleryCard key={photo.id} photo={photo} onOpen={() => setActiveIndex(index)} />
+            <div key={photo.id} className="flex h-full">
+              <GalleryCard photo={photo} onOpen={() => setActiveIndex(index)} />
+            </div>
           ))}
         </div>
       ) : (

@@ -103,7 +103,7 @@ function FilterBar({ activeFilter, onFilterChange, searchQuery, onSearchChange, 
         <div
           ref={scrollerRef}
           onScroll={handleScroll}
-              className="flex gap-3 overflow-x-auto pb-2 pl-8 lg:pl-16 pr-6 px-2 justify-start md:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex min-h-14 items-center gap-3 overflow-x-auto px-2 py-2 pl-8 pr-6 justify-start md:justify-center lg:pl-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           <div className="w-6 flex-shrink-0" aria-hidden="true" />
           {filters.map((filter, index) => {
@@ -115,9 +115,9 @@ function FilterBar({ activeFilter, onFilterChange, searchQuery, onSearchChange, 
                 onClick={() => onFilterChange(filter)}
                 aria-pressed={isActive}
                 style={{ animationDelay: `${index * 30}ms` }}
-                className={`filter-chip relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-primary ${
+                className={`filter-chip relative inline-flex h-10 items-center whitespace-nowrap rounded-full px-4 text-sm font-medium leading-none transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-primary ${
                   isActive
-                    ? "scale-[1.03] bg-gradient-to-r from-primary to-primary/80 text-complementPrimary shadow-[0_8px_20px_-8px] shadow-primary/60"
+                    ? "bg-black text-white"
                     : "border border-white/30 bg-white/15 text-primary backdrop-blur-md hover:border-primary/50 hover:bg-white/25 hover:shadow-[0_6px_16px_-10px] hover:shadow-primary/40"
                 }`}
                 data-active={isActive ? "true" : "false"}
