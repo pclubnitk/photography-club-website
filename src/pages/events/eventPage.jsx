@@ -2,12 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { navigateSmooth } from "../../utils/helperFunctions";
-import {
-  getCategories,
-  getEventById,
-  getGallery,
-  getRelatedEvents,
-} from "../../services/eventsService";
+import { getEventById, getGallery, getRelatedEvents } from "../../services/eventsService";
 // CommentSection removed from page
 import EventGallery from "./components/EventGallery";
 import EventHero from "./components/EventHero";
@@ -15,19 +10,16 @@ import EventInfoCard from "./components/EventInfoCard";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import RelatedEvents from "./components/RelatedEvents";
 import ShareButtons from "./components/ShareButtons";
-import UploadSection from "./components/UploadSection";
 
 function EventPage() {
   const { id } = useParams();
   const eventId = id;
   const navigate = useNavigate();
   const location = useLocation();
-  const uploadRef = useRef(null);
   const detailsRef = useRef(null);
   const [pageData, setPageData] = useState({
     event: null,
     gallery: [],
-    categories: [],
     relatedEvents: [],
   });
   const [loading, setLoading] = useState(true);
@@ -44,17 +36,14 @@ function EventPage() {
       // TODO: GET Event Details API
       // TODO: GET Event Gallery API
       // TODO: GET Related Events API
-      // TODO: GET Categories API
-      // TODO: GET Statistics API
-      const [event, gallery, categories, relatedEvents] = await Promise.all([
+      const [event, gallery, relatedEvents] = await Promise.all([
         getEventById(eventId),
         getGallery(eventId),
-        getCategories(),
         getRelatedEvents(eventId),
       ]);
 
       if (isMounted) {
-        setPageData({ event, gallery, categories, relatedEvents });
+        setPageData({ event, gallery, relatedEvents });
         setLoading(false);
       }
     }
@@ -78,17 +67,6 @@ function EventPage() {
     if (scrollPositionY) sessionStorage.removeItem("scrollPositionY");
   };
 
-  const handleCopyLink = async () => {
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(window.location.href);
-    }
-    setToast("Event link copied.");
-  };
-
-  const scrollToUpload = () => {
-    uploadRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   const scrollToDetails = () => {
     detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -97,7 +75,7 @@ function EventPage() {
     return <LoadingSkeleton />;
   }
 
-  const { event, gallery, categories, relatedEvents } = pageData;
+  const { event, gallery, relatedEvents } = pageData;
 
   return (
     <div className="mx-auto w-full max-w-[1240px] px-6 py-8 sm:px-8 lg:px-12">
@@ -145,13 +123,9 @@ function EventPage() {
                       </span>
                     ))}
                   </div>
-                  <div className="mt-5 grid grid-cols-2 gap-3">
+                  <div className="mt-5 grid grid-cols-1 gap-3">
                     <div className="rounded-[12px] bg-complementSecondary p-4">
-                      <p className="text-2xl font-bold">{event.participants}</p>
-                      <p className="text-sm text-quaternary">Participants</p>
-                    </div>
-                    <div className="rounded-[12px] bg-complementSecondary p-4">
-                      <p className="text-2xl font-bold">{event.photosUploaded}</p>
+                      <p className="text-2xl font-bold">{gallery.length}</p>
                       <p className="text-sm text-quaternary">Photos Uploaded</p>
                     </div>
                   </div>
@@ -161,7 +135,7 @@ function EventPage() {
 
             <div ref={detailsRef} className="flex flex-col gap-6 lg:pl-6">
               <div className="flex justify-end">
-                <ShareButtons onCopy={handleCopyLink} />
+                <ShareButtons />
               </div>
               <EventInfoCard event={event} />
             </div>
@@ -169,10 +143,12 @@ function EventPage() {
         </section>
 
         <section className="lg:col-span-2 w-full rounded-[24px] border border-secondary bg-complementPrimary/70 p-4 shadow-sm sm:p-6 lg:p-7">
-          <EventGallery photos={gallery} onUploadFirst={scrollToUpload} />
+          <EventGallery photos={gallery} />
+          {/* UPLOAD SECTION TEMPORARILY DISABLED — uncomment to restore
           <div ref={uploadRef} className="mt-8 border-t border-secondary/80 pt-8">
             <UploadSection event={event} categories={categories} onSuccess={setToast} />
           </div>
+          */}
         </section>
 
         <main className="flex flex-col gap-8 lg:col-span-2">

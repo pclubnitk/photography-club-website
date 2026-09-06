@@ -41,7 +41,6 @@ const mockEvents = [
       "Festival documentation",
     ],
     participants: "120+",
-    photosUploaded: 36,
   },
   {
     id: "incident-26",
@@ -72,7 +71,6 @@ const mockEvents = [
       "Visual storytelling",
     ],
     participants: "150+",
-    photosUploaded: 54,
   },
   {
     id: "engineer-24",
@@ -94,7 +92,6 @@ const mockEvents = [
     objectives: ["Document technical showcases", "Create editorial coverage"],
     highlights: ["Workshops", "Exhibitions"],
     participants: "80+",
-    photosUploaded: 22,
   },
   {
     id: "photography-24",
@@ -116,7 +113,6 @@ const mockEvents = [
     objectives: ["Encourage theme-based shooting", "Celebrate student work"],
     highlights: ["Competition", "Gallery review"],
     participants: "60+",
-    photosUploaded: 18,
   },
 ];
 
@@ -306,7 +302,6 @@ const mockComments = [
 ];
 
 const mockStatistics = {
-  photosUploaded: 36,
   photographers: 14,
   views: "2.4k",
   downloads: 128,

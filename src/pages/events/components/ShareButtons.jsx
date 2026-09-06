@@ -1,34 +1,20 @@
-import PropTypes from "prop-types";
-import { Copy, Facebook, Instagram, MessageCircle } from "lucide-react";
+import { Instagram } from "lucide-react";
 
-function ShareButtons({ onCopy }) {
-  const buttons = [
-    { label: "Copy Link", icon: Copy, onClick: onCopy },
-    { label: "WhatsApp", icon: MessageCircle },
-    { label: "Instagram", icon: Instagram },
-    { label: "Facebook", icon: Facebook },
-  ];
-
+function ShareButtons() {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      {buttons.map(({ label, icon: Icon, onClick }) => (
-        <button
-          key={label}
-          type="button"
-          onClick={onClick}
-          className="inline-flex items-center gap-2 rounded-full border border-secondary px-3 py-2 text-sm font-medium transition hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary"
-          aria-label={label}
-        >
-          <Icon size={16} />
-          <span className="hidden sm:inline">{label}</span>
-        </button>
-      ))}
+      <a
+        href="https://www.instagram.com/nitkphotography/?hl=en"
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-secondary transition hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-label="NITK Photography on Instagram"
+        title="NITK Photography on Instagram"
+      >
+        <Instagram size={18} />
+      </a>
     </div>
   );
 }
-
-ShareButtons.propTypes = {
-  onCopy: PropTypes.func.isRequired,
-};
 
 export default ShareButtons;
