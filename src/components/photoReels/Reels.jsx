@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import reels from "../../utils/reels.json";
+import React, { useEffect, useState } from "react";
+// import reels from "../../utils/reels.json";
+import { getReels } from "../util/postApi";
 import {
   FiX,
   FiHeart,
@@ -9,29 +10,89 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import Button from "../Button";
+import { likePost } from "../util/postApi";
 
 const Reels = () => {
   const [selectedReel, setSelectedReel] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [likedReels, setLikedReels] = useState(new Set());
+  const [reels, setReels] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleLike = (reelId) => {
-    setLikedReels((prev) => {
-      const newLiked = new Set(prev);
-      if (newLiked.has(reelId)) {
-        newLiked.delete(reelId);
-      } else {
-        newLiked.add(reelId);
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const data = await getReels();
+        setReels(data);
+      } catch (err) {
+        setError("failed to load");
+        console.log(err);
       }
-      return newLiked;
-    });
-  };
+    };
+    fetchContent();
+  }, []);
 
+  // useEffect(() => {
+  //   const storedLikedReels =
+  //     JSON.parse(localStorage.getItem("likedReels")) || [];
+  //   setLikedReels(new Set(storedLikedReels));
+  // }, []);
+
+  useEffect(() => {
+    localStorage.setItem("likedReels", JSON.stringify([...likedReels]));
+  }, [likedReels]);
+
+  // const handleLike = (reelId) => {
+  //   setLikedReels((prev) => {
+  //     const newLiked = new Set(prev);
+  //     if (newLiked.has(reelId)) {
+  //       newLiked.delete(reelId);
+  //     } else {
+  //       newLiked.add(reelId);
+  //     }
+  //     return newLiked;
+  //   });
+  // };
+
+  const handleLike = async (docId) => {
+    const alreadyLiked = likedReels.has(docId);
+    if (alreadyLiked) return;
+
+    try {
+      const updatedReel = await likePost(docId);
+
+      setLikedReels((prev) => {
+        const newLike = new Set(prev);
+        newLike.add(docId);
+        return newLike;
+      });
+
+      if (updatedReel) {
+        const updatedLikesCount = updatedReel.likesCount;
+        setReels((prev) =>
+          prev.map((r) =>
+            r.documentId === docId
+              ? { ...r, likesCount: updatedLikesCount }
+              : r,
+          ),
+        );
+        // Also update selectedReel if it's the same one being liked
+        if (selectedReel?.documentId === docId) {
+          setSelectedReel((prev) => ({
+            ...prev,
+            likesCount: updatedLikesCount,
+          }));
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const nextImage = (e) => {
     e.stopPropagation();
     if (selectedReel) {
       setCurrentImageIndex((prev) =>
-        prev === selectedReel.images.length - 1 ? 0 : prev + 1
+        prev === selectedReel.images.length - 1 ? 0 : prev + 1,
       );
     }
   };
@@ -40,7 +101,7 @@ const Reels = () => {
     e.stopPropagation();
     if (selectedReel) {
       setCurrentImageIndex((prev) =>
-        prev === 0 ? selectedReel.images.length - 1 : prev - 1
+        prev === 0 ? selectedReel.images.length - 1 : prev - 1,
       );
     }
   };
@@ -97,16 +158,16 @@ const Reels = () => {
             <div className="p-4 space-y-3">
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() => handleLike(reel.id)}
+                  onClick={() => handleLike(reel.documentId)}
                   className={`p-2 rounded-full transition-colors ${
-                    likedReels.has(reel.id)
+                    likedReels.has(reel.documentId)
                       ? "text-red-500 hover:bg-red-50"
                       : "hover:bg-gray-100"
                   }`}
                 >
                   <FiHeart
                     className={`w-6 h-6 ${
-                      likedReels.has(reel.id) ? "fill-current" : ""
+                      likedReels.has(reel.documentId) ? "fill-current" : ""
                     }`}
                   />
                 </button>
@@ -119,7 +180,7 @@ const Reels = () => {
               </div>
               <div>
                 <p className="font-medium text-sm">
-                  {reel.likes + (likedReels.has(reel.id) ? 1 : 0)} likes
+                  {(reel.likesCount ?? reel.likes) ?? 0} likes
                 </p>
                 <h2 className="font-medium mt-1">{reel.title}</h2>
                 <p className="text-sm text-gray-600 mt-1">{reel.description}</p>
@@ -229,8 +290,7 @@ const Reels = () => {
                 </div>
                 <div>
                   <span className="font-medium">Likes:</span>
-                  {selectedReel.likes +
-                    (likedReels.has(selectedReel.id) ? 1 : 0)}
+                  {(selectedReel.likesCount ?? selectedReel.likes) ?? 0}
                 </div>
               </div>
             </div>

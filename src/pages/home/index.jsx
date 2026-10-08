@@ -4,8 +4,12 @@ import Hero from "./hero"
 import ClubUpdates from "./clubUpdates"
 import photo1 from '../../assets/images/placeholder-images/photography1.png'
 import photo2 from '../../assets/images/placeholder-images/photography2.png'
+import {useEffect,useState} from "react";
+import axios from "axios";
 
 export default function HomePage() {
+
+    const [events, setEvents] = useState([]);
 
     const specialNotices = ["Recruitment for 2028 batch has begun."]
     const onJoin = (e) => {
@@ -19,6 +23,20 @@ export default function HomePage() {
         console.log("Learn more button clicked");
         // redirect to the learn more page
     }
+    
+    const getEvents = async () => {
+        try {
+            const res = await axios.get("http://localhost:1337/api/events");
+            setEvents(res.data.data);
+        }
+        catch(err) {
+            console.log(err);
+        }  
+    }
+
+    useEffect(()=>{
+        getEvents();
+    },[])
 
     return (
         <div>
@@ -32,7 +50,6 @@ export default function HomePage() {
                 <hr className="my-10 border-1 border-gray-300" />
             </div>
         </div >
-
 
     )
 }
@@ -164,7 +181,7 @@ const stats = [
 
 // Latest few events
 // Everything is necessary except image
-const events = [
+/*const events = [
     {
         id: "incident-24",
         title: "Incident '24",
@@ -211,7 +228,7 @@ const events = [
         thumbnailColor: "#FFB4A2"
     }
 ]
-
+*/
 
 // Top few blogs
 // Everything is necessary except image

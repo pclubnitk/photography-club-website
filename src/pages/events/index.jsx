@@ -1,88 +1,61 @@
-import { Outlet, useParams } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { Outlet, useParams } from 'react-router';
+import { useState } from 'react';
+import Dropdown from '../../components/filtersort/dropdown';
 import EventsThumb from '../../components/events/eventsThumb';
 import ModularTabs from '../../components/modularTabs';
-import EventCategorySelector from './components/EventCategorySelector';
-import { getEvents } from '../../services/eventsService';
-
-const navItems = [
-    { id: 'upcoming', label: 'Upcoming' },
-    { id: 'all', label: 'All' },
-    { id: 'past', label: 'Past' },
-];
-
-const CATEGORY_META = {
-    PClub: { label: 'PClub Events', emptyPrefix: 'PClub' },
-    Others: { label: 'Others Events', emptyPrefix: 'Others' },
-};
-
-const TAB_LABEL = {
-    upcoming: 'upcoming',
-    all: '',
-    past: 'past',
-};
-
-const getEventStartDate = (dateTime) => {
-    const startDate = dateTime?.split('/')[0];
-    return new Date(startDate);
-};
-
-const getCardEvent = (event) => ({
-    id: event.id,
-    title: event.title,
-    description: event.shortDescription || event.fullDescription || '',
-    location: event.location || event.venue,
-    dateTime: event.dateTime,
-    image: event.image || event.bannerImage,
-    thumbnailColor: event.thumbnailColor,
-});
-
-// Filter by Upcoming / All / Past status
-const filterByTab = (events, activeTab) => {
-    if (activeTab === 'all') return events;
-
-    const now = new Date();
-    return events.filter((event) => {
-        const eventDate = getEventStartDate(event.dateTime);
-        if (Number.isNaN(eventDate.getTime())) return activeTab === 'upcoming';
-        return activeTab === 'upcoming' ? eventDate >= now : eventDate < now;
-    });
-};
-
-// Scope to the selected category, then filter by tab
-const filterEvents = (events, selectedCategory, activeTab) => {
-    // Step 1: scope by category
-    const byCategory = events.filter((event) =>
-        selectedCategory === 'PClub'
-            ? event.eventType === 'PClub'
-            : event.eventType !== 'PClub'   // "Others" = every non-PClub type
-    );
-
-    // Step 2: apply Upcoming / All / Past on the scoped set
-    return filterByTab(byCategory, activeTab);
-};
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function Events() {
     const { id } = useParams();
     const [events, setEvents] = useState([]);
     const [activeTab, setActiveTab] = useState('upcoming');
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [eventsToShow, setEventsToShow] = useState([]);
+    const [events, setEvents] = useState([]);
+
+    const API="http://localhost:1337/api/events";
+
+    const getEvents = async () =>{
+        try{
+            const res=await axios.get(API);
+
+        console.log(res.data.data);
+        const events=[...res.data.data].sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+        setEvents(events);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    useEffect(() => {
+        getEvents();
+        
+    }, []);
+
+
+    const handleTabClick =  (tabId) => {
+         setActiveTab(tabId);
+
+        if (tabId === "all") {
+             setEventsToShow(events);
+        } else if (tabId === "upcoming") {
+            const upcomingEvents = events.filter(event => new Date(event.dateTime) >= new Date());
+            const sortedUpcomingEvents = [...upcomingEvents].sort((a,b) => new Date(a.dateTime) - new Date(b.dateTime));
+            setEventsToShow(sortedUpcomingEvents);
+        } else if (tabId === "pclub") {
+            const pastEvents = events.filter(event => event.isPClubEvent);
+             setEventsToShow(pastEvents);
+        }
+        else if (tabId === "nitkevents") {
+            const nitkEvents = events.filter(event => !event.isPClubEvent);
+            setEventsToShow(nitkEvents);
+        }
+    }
 
     useEffect(() => {
-        let isMounted = true;
-
-        async function loadEvents() {
-            const eventList = await getEvents();
-            if (isMounted) setEvents(eventList);
-        }
-
-        loadEvents();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+        handleTabClick(activeTab);
+    }, [events]);
+   
 
     // Reset tab to "upcoming" whenever the user switches categories
     const handleSelectCategory = (category) => {
@@ -192,4 +165,52 @@ function Events() {
     );
 }
 
-export default Events;
+/*const events = [
+    {
+        id: "incident-24",
+        title: "Incident '24",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        location: "Main Building, NITK",
+        dateTime: "2026-01-01 10:00 AM",
+        image: "https://img.freepik.com/free-photo/3d-modern-background-with-hot-pink-flowing-lines_1048-12263.jpg",
+        thumbnailColor: "#E195AB"
+    },
+    {
+        id: "engineer-24",
+        title: "Engineer '24",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        location: "Main Building, NITK",
+        dateTime: "2027-01-01 10:00 AM",
+        image: "https://placehold.co/200x260", //optional
+        thumbnailColor: "#DE3163"
+    },
+    {
+        id: "photography-24",
+        title: "Photography '24",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        location: "Main Building, NITK",
+        dateTime: "2024-01-01 10:00 AM",
+        image: "https://placehold.co/200x260",
+        thumbnailColor: "#FFB4A2"
+    },
+    {
+        id: "event-4",
+        title: "Event 4 - No Image",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+        location: "Main Building, NITK",
+        dateTime: "2024-01-01 10:00 AM",
+        image: null,
+        thumbnailColor: "#FFB4A2"
+    }
+]
+*/
+const navItems = [
+    { id: 'upcoming', label: 'Upcoming' },
+    { id: 'all', label: 'All' },
+    { id: 'pclub', label: 'PClub' },
+    {id: 'nitkevents', label: 'NITK Events'},
+]
+
+
+
+export default Events

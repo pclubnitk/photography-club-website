@@ -1,12 +1,28 @@
-import { useState } from "react";
-import photos from "../../utils/photos.json";
+import { useEffect, useState } from "react";
+// import photos from "../../utils/photos.json";
 import Button from "../Button";
 import { FiX } from "react-icons/fi";
+import { getPhotos } from "../util/postApi";
 
 const Photos = () => {
   const [viewAll, setViewAll] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [category, setCategory] = useState("View all");
+  const [photos, setPhotos] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const data = await getPhotos();
+        setPhotos(data);
+      } catch (err) {
+        setError("failed to load ");
+        console.log(err);
+      }
+    };
+    fetchContent();
+  }, []);
 
   // Categories similar to team tabs
   const categories = [
