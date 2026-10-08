@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/home";
 
 import Events from "./pages/events";
@@ -21,8 +21,12 @@ export default function App () {
     <div>
       <ThemeProvider>
         <div className="bg-complementPrimary">
-          <Header />
-          <div className="pt-[65px]">
+
+          {/* Header hidden on login/register */}
+          {!hideChrome && <Header />}
+
+          {/* pt-[65px] offsets the fixed header height — not needed on login */}
+          <div className={!hideChrome ? "pt-[65px]" : ""}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/portfolio" element={<PortfolioLayout />}>
@@ -39,7 +43,10 @@ export default function App () {
               <Route path="/auth-test" element={<AuthTest />} />
             </Routes>
           </div>
-          <Footer />
+
+          {/* Footer hidden on login/register */}
+          {!hideChrome && <Footer />}
+
         </div>
       </ThemeProvider>
     </div>

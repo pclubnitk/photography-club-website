@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/images/temp-logo.png"
 import { FiCamera } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
-import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
-import { useState } from "react";
+import { AiOutlineClose, AiOutlineMenu, AiOutlineArrowRight } from 'react-icons/ai'
+import { useState, useRef, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext"
 import Button from "../Button"
 import { navigateSmooth } from "../../utils/helperFunctions"
@@ -42,8 +42,12 @@ const navigationLinks = [
 
 export default function Header() {
     const [nav, setNav] = useState(false)
+    const [profileOpen, setProfileOpen] = useState(false)
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
     const { theme } = useTheme()
     const navigate = useNavigate()
+    const profileButtonRef = useRef(null)
+    const profileMenuRef = useRef(null)
 
     const handleNav = () => {
         setNav(!nav)
@@ -53,6 +57,48 @@ export default function Header() {
         handleNav()
         navigateSmooth(navigate, path)
     }
+
+    // Open confirmation modal instead of immediately logging out
+    const handleLogout = () => {
+        setShowLogoutConfirm(true)
+    }
+
+    // Perform actual logout when user confirms
+    const performLogout = () => {
+        localStorage.clear()
+        sessionStorage.clear()
+        setProfileOpen(false)
+        setShowLogoutConfirm(false)
+        navigate('/login')
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                profileOpen &&
+                profileMenuRef.current &&
+                profileButtonRef.current &&
+                !profileMenuRef.current.contains(event.target) &&
+                !profileButtonRef.current.contains(event.target)
+            ) {
+                setProfileOpen(false)
+            }
+        }
+
+        const handleEsc = (event) => {
+            if (event.key === 'Escape') {
+                setProfileOpen(false)
+                setShowLogoutConfirm(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        document.addEventListener('keydown', handleEsc)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('keydown', handleEsc)
+        }
+    }, [profileOpen])
 
     return (
         <>
@@ -87,10 +133,51 @@ export default function Header() {
                 <div onClick={handleNav} className='block md:hidden'>
                     <AiOutlineMenu size={20} />
                 </div>
-                <div className="hidden md:block">
-                    <Button variant="secondary" size="sm" icon={<FaRegUser />}>
-                        Club Member
-                    </Button>
+                <div className="relative hidden md:block">
+                    <button
+                        ref={profileButtonRef}
+                        type="button"
+                        onClick={() => setProfileOpen((open) => !open)}
+                        aria-haspopup="menu"
+                        aria-expanded={profileOpen}
+                        className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm hover:border-gray-300 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-red-200"
+                    >
+                        <FaRegUser size={18} />
+                    </button>
+
+                    <div
+                        ref={profileMenuRef}
+                        className={`absolute right-0 mt-3 w-48 origin-top-right rounded-2xl border border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-out ${
+                            profileOpen
+                                ? 'opacity-100 translate-y-2 scale-100 pointer-events-auto'
+                                : 'opacity-0 translate-y-0 scale-95 pointer-events-none'
+                        }`}
+                    >
+                        <div className="flex flex-col py-2">
+                            <Link
+                                to="/club-member"
+                                onClick={() => setProfileOpen(false)}
+                                className="px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                            >
+                                My Profile
+                            </Link>
+                            <Link
+                                to="/settings"
+                                onClick={() => setProfileOpen(false)}
+                                className="px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                            >
+                                Settings
+                            </Link>
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center justify-between"
+                            >
+                                <span>Logout</span>
+                                <AiOutlineArrowRight size={20} className="text-red-600" aria-hidden="true" />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -130,6 +217,37 @@ export default function Header() {
                     </div>
                 </div>
             </div>
+                {showLogoutConfirm && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black/40" onClick={() => setShowLogoutConfirm(false)} />
+                        <div
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="logout-title"
+                            className="relative bg-white rounded-xl shadow-lg max-w-sm w-full p-6 z-10"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <h3 id="logout-title" className="text-lg font-medium text-gray-900">Confirm logout</h3>
+                            <p className="mt-2 text-sm text-gray-600">Are you sure you want to log out?</p>
+                            <div className="mt-4 flex justify-end gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowLogoutConfirm(false)}
+                                    className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={performLogout}
+                                    className="px-4 py-2 rounded-lg bg-red-600 text-white"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
         </>
     )
 }

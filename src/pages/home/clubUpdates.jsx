@@ -3,7 +3,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import EventsThumb from "../../components/events/eventsThumb";
 import BlogsThumb from "../../components/blogs/blogsThumb";
 import ViewAllCard from "../../components/util/ViewAllCard";
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { navigateSmooth } from "../../utils/helperFunctions";

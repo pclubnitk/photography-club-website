@@ -1,5 +1,5 @@
 import { FaAngleRight } from "react-icons/fa6";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { navigateSmooth } from "../../utils/helperFunctions";
 
@@ -40,7 +40,7 @@ function BlogsThumb({ blog, variant = "scroll" }) {
                 </div>
             )}
 
-            <div className={`text-primary flex flex-col gap-3 p-3 items-start justify-start 
+            <div className={`text-red-600 flex flex-col gap-3 p-3 items-start justify-start 
                 ${!blog.image && "rounded-[12px_12px_0_0] h-[90%] bg-complementPrimary"}
                 `}>
                 <p className="font-playfair text-[18px] font-medium leading-[1]">

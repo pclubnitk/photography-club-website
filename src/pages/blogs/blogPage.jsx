@@ -1,6 +1,5 @@
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import { FaRegUser } from "react-icons/fa";
 import { MdEvent } from "react-icons/md";

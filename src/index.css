@@ -10,3 +10,14 @@
 	padding: 0;
 	font-family: 'DM Sans', sans-serif;
 }
+
+/* Make rendered blog post/markdown content red */
+.wmde-markdown,
+.wmde-markdown p,
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown li,
+.wmde-markdown blockquote {
+    color: #dc2626; /* Tailwind red-600 */
+}
