@@ -10,3 +10,36 @@
 	padding: 0;
 	font-family: 'DM Sans', sans-serif;
 }
+
+::view-transition-old(root) {
+	animation: profile-fade-out 180ms ease-out both;
+}
+
+::view-transition-new(root) {
+	animation: profile-slide-in 360ms ease-out both;
+}
+
+@keyframes profile-fade-out {
+	to {
+		opacity: 0;
+		transform: scale(0.98);
+	}
+}
+
+@keyframes profile-slide-in {
+	from {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+}
+
+.member-grid-transition {
+	animation: member-grid-in 240ms ease-out both;
+}
+
+@keyframes member-grid-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}

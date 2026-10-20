@@ -78,7 +78,7 @@ export default function Footer() {
             <h3 className="font-medium mb-4">Follow Us</h3>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.instagram.com/nitkphotography/"
                 className="text-gray-600 hover:text-red-500 transition-colors"
               >
                 <FiInstagram size={20} />
@@ -90,7 +90,7 @@ export default function Footer() {
                 <FiTwitter size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@photographyclubnitk"
                 className="text-gray-600 hover:text-red-500 transition-colors"
               >
                 <FiYoutube size={20} />

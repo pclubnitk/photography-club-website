@@ -2,8 +2,7 @@ import ScrollView from "../../components/util/ScrollView";
 import PhotoViewer from "../../components/util/PhotoViewer";
 import { useState, useRef } from 'react'
 import PropTypes from 'prop-types';
-
-
+import learnMore from './index.jsx';
 function About({ clubGallery, stats, learnMore }) {
     const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -12,6 +11,7 @@ function About({ clubGallery, stats, learnMore }) {
 
     return (
         <div>
+            {/* <section id="about" className="scroll-mt-[80px]"> */}
             <p className="text-tertiary text-[14px] font-bold uppercase pt-3">
                 About Us
             </p>
@@ -41,7 +41,7 @@ function About({ clubGallery, stats, learnMore }) {
                 md:mt-3"
                 onClick={learnMore}
             >
-                Learn More
+                Know More
             </button>
             <div className="flex flex-col gap-4 pt-12">
                 <div className="flex flex-row items-center justify-between">
@@ -89,6 +89,7 @@ function About({ clubGallery, stats, learnMore }) {
                 date={clubGallery[currentPhotoIndex].date}
                 itemsInPhoto={clubGallery[currentPhotoIndex].itemsInPhoto}
             />
+            {/* </section> */}
         </div>
     )
 }

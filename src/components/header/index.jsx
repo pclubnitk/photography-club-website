@@ -25,6 +25,11 @@ const navigationLinks = [
         icon: null
     },
     {
+    path: '/about',
+    label: 'About Us',
+    icon: null
+},
+    {
         path: '/photo-reels',
         label: 'Photo Reel',
         icon: <FiCamera size={18} />,
@@ -50,9 +55,9 @@ export default function Header() {
     }
 
     const handleNavigation = (path) => {
-        handleNav()
-        navigateSmooth(navigate, path)
-    }
+    handleNav();
+    navigateSmooth(navigate, path);
+};
 
     return (
         <>
@@ -67,7 +72,7 @@ export default function Header() {
                 <div className="hidden md:flex items-center justify-center gap-8 text-sm tracking-wide">
                     {navigationLinks.slice(0, -1).map((link) => (
                         link.isButton ? (
-                            <Link key={link.path} to={link.path} onClick={() => navigateSmooth(navigate, link.path, 'header')}>
+                            <Link key={link.path} to={link.path} onClick={() => navigateSmooth(navigate, link.path, "header")}>
                                 <Button variant={link.variant} size="sm" icon={link.icon}>
                                     {link.label}
                                 </Button>

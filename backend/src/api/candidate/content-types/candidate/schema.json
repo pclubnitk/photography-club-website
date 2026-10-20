@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "candidates",
+  "info": {
+    "singularName": "candidate",
+    "pluralName": "candidates",
+    "displayName": "Candidate"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "bio": {
+      "type": "text"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "role": {
+      "type": "enumeration",
+      "enum": [
+        "Frame",
+        "Grid",
+        "Vivid",
+        "Reel",
+        "Social Media"
+      ]
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "linkedin": {
+      "type": "string"
+    },
+    "core": {
+      "type": "enumeration",
+      "enum": [
+        "Yes",
+        "No"
+      ],
+      "required": true
+    },
+    "coreRole": {
+      "type": "enumeration",
+      "enum": [
+        "Convenor",
+        "Vice-Convenor",
+        "Head of Operations",
+        "Techincal Head",
+        "Secretary",
+        "Frame Head",
+        "Reel Head",
+        "Vivid Head",
+        "Social Media Head"
+      ]
+    }
+  }
+}

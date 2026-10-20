@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import Landing from "./landing"
 import About from "./about"
 import Hero from "./hero"
@@ -10,7 +11,6 @@ import axios from "axios";
 export default function HomePage() {
 
     const [events, setEvents] = useState([]);
-
     const specialNotices = ["Recruitment for 2028 batch has begun."]
     const onJoin = (e) => {
         e.preventDefault();
@@ -22,6 +22,7 @@ export default function HomePage() {
         e.preventDefault();
         console.log("Learn more button clicked");
         // redirect to the learn more page
+        window.location.href = "/about";
     }
     
     const getEvents = async () => {
@@ -43,7 +44,7 @@ export default function HomePage() {
             <Landing onJoin={onJoin} specialNotices={specialNotices} />
             {/* Refer to tailwind.config.js for container, container-px and container-px-md variables */}
             <div className="max-w-container px-container-px py-5 mx-auto flex flex-col md:py-7 md:px-container-px-md">
-                <About clubGallery={clubGallery} stats={stats} learnMore={learnMore} />
+                <About clubGallery={clubGallery} stats={[]} learnMore={learnMore} />
                 <Hero photos={topPhotos} />
                 <hr className="my-10 border-1 border-gray-300" />
                 <ClubUpdates events={events} blogs={blogs} />
